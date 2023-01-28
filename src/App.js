@@ -5,16 +5,30 @@ import { db } from "./firebase";
 import { doc, setDoc, addDoc, collection, getDocs } from "firebase/firestore";
 
 function App() {
+  //message that user can leave about the hackathon
   const [message, setMessage] = React.useState("");
+
+  //rating states for all the different criteria
   const [overallRating, setOverallRating] = React.useState(0);
   const [workshopsRating, setWorkshopsRating] = React.useState(0);
   const [foodRating, setFoodRating] = React.useState(0);
   const [teamAssignmentRating, setTeamAssignmentRating] = React.useState(0);
   const [speakersRating, setSpeakersRating] = React.useState(0);
+
+  /*This is a boolean that toggles whether the user is viewing the submit page or the results page.
+  I use conditional rendering with a ternary operator in the render function to control which page is viewed.
+  If the app was more complex, I would probably use React Router instead, but since it is only 2 pages,
+  I feel like the readability is not impacted that much.
+  */
   const [seeResults, setSeeResults] = React.useState(false);
+
+  //controls what the navigation button in the top left says.
   const [pageText, setPageText] = React.useState("See Results");
+
+  //array of reviews that will be filled from a Firebase database
   const [reviews, setReviews] = React.useState([]);
 
+  //These sums are used to calculate the average ratings for these categories.
   const [overallSum, setOverallSum] = React.useState(0);
   const [workshopsSum, setWorkshopsSum] = React.useState(0);
   const [foodSum, setFoodSum] = React.useState(0);
@@ -22,8 +36,10 @@ function App() {
   const [speakersSum, setSpeakersSum] = React.useState(0);
 
   React.useEffect(() => {
+    //gets the reviews from Firebase
     getReviews();
 
+    //calculate the sums of each category rating, and set the state to use in average calculations
     let overall = 0;
     let workshops = 0;
     let food = 0;
@@ -43,6 +59,7 @@ function App() {
     setSpeakersSum(speakers);
   }, [seeResults]);
 
+  //get the results from Firebase
   async function getReviews() {
     const querySnapshot = await getDocs(collection(db, "reviews"));
     let items = await [];
@@ -53,9 +70,11 @@ function App() {
     await setReviews(items);
   }
 
+  //adds a submission to firebase when user presses submit
   async function handleSubmit(e) {
     e.preventDefault();
 
+    //Checks to make sure all areas are filled in
     if (message === "") {
       alert("Please add some comments!");
       return;
@@ -84,6 +103,8 @@ function App() {
     window.location.reload(false);
     alert("Your feedback has been submitted!");
   }
+
+  //handles the rating states when user changes a rating
   const handleOverallRating = (rate: number) => {
     setOverallRating(rate);
   };
@@ -100,6 +121,7 @@ function App() {
     setSpeakersRating(rate);
   };
 
+  //whenever the text in the top left is pressed, it changes pages between results and submission
   function changePages() {
     if (!seeResults) {
       setSeeResults(true);
@@ -112,138 +134,60 @@ function App() {
 
   return (
     <div>
-      <h2 style={{ paddingLeft: "1em" }} onClick={changePages}>
+      {/*Navigation text */}
+      <h2 className="navigationText" onClick={changePages}>
         {pageText}
       </h2>
-
+      {/*This ternary determines whether the results page or the submission page is rendered. */}
       {!seeResults ? (
+        /*Submission Page */
         <div className="App">
-          <form className="app__form" onSubmit={handleSubmit}>
-            <label
-              style={{
-                display: "flex",
-                margin: "auto",
-                justifyContent: "center",
-                fontSize: 23,
-              }}
-            >
+          <form onSubmit={handleSubmit}>
+            <label className="formLabel">
               Send your feedback to VandyHacks!
             </label>
 
-            <div
-              style={{
-                display: "flex",
-                margin: "auto",
-                width: "100%",
-                justifyContent: "center",
-              }}
-            >
+            {/*Star ratings for all the categories */}
+            <div className="stars">
               <p>Overall</p>
-              <Rating
-                style={{ display: "flex", margin: "auto", width: "100%" }}
-                onClick={handleOverallRating}
-                allowHover={false}
-              />
+              <Rating onClick={handleOverallRating} allowHover={false} />
             </div>
-
-            <div
-              style={{
-                display: "flex",
-                margin: "auto",
-                width: "100%",
-                justifyContent: "center",
-              }}
-            >
+            <div className="stars">
               <p>Workshops</p>
-              <Rating
-                style={{ display: "flex", margin: "auto", width: "100%" }}
-                onClick={handleWorkshopsRating}
-                allowHover={false}
-              />
+              <Rating onClick={handleWorkshopsRating} allowHover={false} />
             </div>
-
-            <div
-              style={{
-                display: "flex",
-                margin: "auto",
-                width: "100%",
-                justifyContent: "center",
-              }}
-            >
+            <div className="stars">
               <p>Food</p>
-              <Rating
-                style={{ display: "flex", margin: "auto", width: "100%" }}
-                onClick={handleFoodRating}
-                allowHover={false}
-              />
+              <Rating onClick={handleFoodRating} allowHover={false} />
             </div>
-
-            <div
-              style={{
-                display: "flex",
-                margin: "auto",
-                width: "100%",
-                justifyContent: "center",
-              }}
-            >
+            <div className="stars">
               <p>Team Assignment</p>
-              <Rating
-                style={{ display: "flex", margin: "auto", width: "100%" }}
-                onClick={handleTeamAssignmentRating}
-                allowHover={false}
-              />
+              <Rating onClick={handleTeamAssignmentRating} allowHover={false} />
             </div>
-
-            <div
-              style={{
-                display: "flex",
-                margin: "auto",
-                width: "100%",
-                justifyContent: "center",
-              }}
-            >
+            <div className="stars">
               <p>Speakers</p>
-              <Rating
-                style={{ display: "flex", margin: "auto", width: "100%" }}
-                onClick={handleSpeakersRating}
-                allowHover={false}
-              />
+              <Rating onClick={handleSpeakersRating} allowHover={false} />
             </div>
 
+            {/*Box to add comments to your review*/}
             <textarea
-              style={{
-                display: "flex",
-                margin: "auto",
-                width: "40%",
-                fontSize: 23,
-                borderRadius: "3px",
-              }}
+              className="commentBox"
               rows="6"
               cols="10"
               type="text"
-              placeholder="Your comments here."
+              placeholder="Your comments here..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             ></textarea>
 
-            <button
-              style={{
-                display: "flex",
-                margin: "auto",
-                marginTop: "1em",
-                padding: ".4em",
-                borderRadius: "3px",
-                fontSize: 23,
-              }}
-              type="submit"
-            >
-              Submit
-            </button>
+            <button type="submit">Submit</button>
           </form>
         </div>
       ) : (
+        /*This is the results page, the else part of the ternary for conditional rendering */
         <div className="App">
           <h2>Results</h2>
+          {/*Displays averages for all the categories */}
           <p>Overall Average: {(overallSum / reviews.length).toFixed(2)} / 5</p>
           <p>
             Workshops Average: {(workshopsSum / reviews.length).toFixed(2)} / 5
@@ -256,6 +200,8 @@ function App() {
           <p>
             Speakers Average: {(speakersSum / reviews.length).toFixed(2)} / 5
           </p>
+
+          {/*Displays all the comments written by users. */}
           <h3>Comments</h3>
           {reviews.map((review) => {
             return (
