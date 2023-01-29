@@ -5,10 +5,10 @@ This is my application project. It is intended to provide an easy way for hackat
 Here is a video demonstration of the project: https://drive.google.com/file/d/1lT7VO8m_bmUUs3RQMKoWW1bwzjGg6KpV/view?usp=sharing
 
 Here is a screenshot of the feeback submission page:
-
+![Screenshot1](Screenshot1.png)
 
 Here is a screenshot of the results analysis page:
-
+![Screenshot2](Screenshot2.png)
 
 
 Best,
