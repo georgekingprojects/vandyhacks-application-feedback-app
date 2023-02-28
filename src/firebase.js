@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDNfHxFbhPtSKMjUldVMKphHpm9BjrQcDQ",
-  authDomain: "vandyhacks-application.firebaseapp.com",
-  projectId: "vandyhacks-application",
-  storageBucket: "vandyhacks-application.appspot.com",
-  messagingSenderId: "780625041712",
-  appId: "1:780625041712:web:a08bb04f3d778029c890f5",
+  apiKey: "AIzaSyBxxzWovFxgGNJ9K0MtbZoYkScatu6ichY",
+  authDomain: "spotify-submission-portal.firebaseapp.com",
+  projectId: "spotify-submission-portal",
+  storageBucket: "spotify-submission-portal.appspot.com",
+  messagingSenderId: "750557205175",
+  appId: "1:750557205175:web:799a20a6b0d6f789e4b332",
 };
 
 // Initialize Firebase and cloud storage

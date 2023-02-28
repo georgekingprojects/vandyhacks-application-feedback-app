@@ -23,7 +23,7 @@ function App() {
   const [seeResults, setSeeResults] = React.useState(false);
 
   //controls what the navigation button in the top left says.
-  const [pageText, setPageText] = React.useState("See Results");
+  const [pageText, setPageText] = React.useState("View database data");
 
   //array of reviews that will be filled from a Firebase database
   const [reviews, setReviews] = React.useState([]);
@@ -76,10 +76,10 @@ function App() {
 
     //Checks to make sure all areas are filled in
     if (message === "") {
-      alert("Please add some comments!");
+      alert("Please add some data!");
       return;
     }
-    if (
+    /*if (
       overallRating === 0 ||
       workshopsRating === 0 ||
       foodRating === 0 ||
@@ -88,7 +88,7 @@ function App() {
     ) {
       alert("Please add a rating for all areas!");
       return;
-    }
+    }*/
 
     await addDoc(collection(db, "reviews"), {
       message: message,
@@ -101,7 +101,7 @@ function App() {
 
     setMessage("");
     window.location.reload(false);
-    alert("Your feedback has been submitted!");
+    alert("Your data has been added to the database!");
   }
 
   //handles the rating states when user changes a rating
@@ -125,10 +125,10 @@ function App() {
   function changePages() {
     if (!seeResults) {
       setSeeResults(true);
-      setPageText("Submit Feedback");
+      setPageText("Add Data");
     } else {
       setSeeResults(false);
-      setPageText("See Results");
+      setPageText("View Database data");
     }
   }
 
@@ -143,12 +143,10 @@ function App() {
         /*Submission Page */
         <div className="App">
           <form onSubmit={handleSubmit}>
-            <label className="formLabel">
-              Send your feedback to VandyHacks!
-            </label>
+            <label className="formLabel">Enter some data below!</label>
 
             {/*Star ratings for all the categories */}
-            <div className="stars">
+            {/*<div className="stars">
               <p>Overall</p>
               <Rating onClick={handleOverallRating} allowHover={false} />
             </div>
@@ -167,7 +165,7 @@ function App() {
             <div className="stars">
               <p>Speakers</p>
               <Rating onClick={handleSpeakersRating} allowHover={false} />
-            </div>
+      </div>*/}
 
             {/*Box to add comments to your review*/}
             <textarea
@@ -175,7 +173,7 @@ function App() {
               rows="6"
               cols="10"
               type="text"
-              placeholder="Your comments here..."
+              placeholder="Type some random stuff to add to the database..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             ></textarea>
@@ -186,9 +184,9 @@ function App() {
       ) : (
         /*This is the results page, the else part of the ternary for conditional rendering */
         <div className="App">
-          <h2>Results</h2>
+          <h2>Data</h2>
           {/*Displays averages for all the categories */}
-          <p>Overall Average: {(overallSum / reviews.length).toFixed(2)} / 5</p>
+          {/*<p>Overall Average: {(overallSum / reviews.length).toFixed(2)} / 5</p>
           <p>
             Workshops Average: {(workshopsSum / reviews.length).toFixed(2)} / 5
           </p>
@@ -199,10 +197,10 @@ function App() {
           </p>
           <p>
             Speakers Average: {(speakersSum / reviews.length).toFixed(2)} / 5
-          </p>
+      </p>*/}
 
           {/*Displays all the comments written by users. */}
-          <h3>Comments</h3>
+          {/*<h3>Data</h3>*/}
           {reviews.map((review) => {
             return (
               <div>
